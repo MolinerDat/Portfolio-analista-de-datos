@@ -1,0 +1,40 @@
+import pandas as pd
+
+# Replace with your real file name or path
+df = pd.read_csv(r"C:\Users\jmoliner\OneDrive - Hamilton Investigación Estrategica, SL\Escritorio\CSV.csv", encoding='latin1', sep=';')
+
+
+# Show first 5 rows
+df.head()
+
+print(df.head())       # First rows
+print(df.columns)      # Column names
+print(df.info())       # Structure and missing values
+
+# Replace with the real names of your columns
+columns_to_keep = ["F1", "K1", "K2", "K3", "K4", "K5", "P5"]
+
+df = df[columns_to_keep]
+
+print(df.head())
+print(df.info())
+
+print(df.describe())
+
+for col in ["K1", "K2", "K3", "K4", "K5", "P5"]:
+    print(f"\n{col} value counts:")
+    print(df[col].value_counts().sort_index())
+
+    import matplotlib.pyplot as plt
+
+    df["K1"].value_counts().sort_index().plot(kind="bar")
+    plt.title("Distribution of K1")
+    plt.xlabel("Category")
+    plt.ylabel("Frequency")
+    plt.show()
+
+    # Average age per P5 category
+    print(df.groupby("P5")["F1"].mean())
+
+    # Or: Count of age groups per K1 value
+    print(pd.crosstab(df["K1"], pd.cut(df["F1"], bins=[0, 25, 40, 60, 100])))
